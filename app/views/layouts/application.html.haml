@@ -1,0 +1,50 @@
+!!!
+%html
+  %head
+    %title Videobox
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag    'tv_min', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag    'tv_small_min', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag 'jquery.appear-1.1.1.min', 'data-turbolinks-track' => true
+    = javascript_include_tag 'jquery.min', 'data-turbolinks-track' => true
+    = javascript_include_tag 'jquery-ui.min', 'data-turbolinks-track' => true
+    = javascript_include_tag 'pullouts.min', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    #header_login{:style => "z-index: 120; cursor: default;"}
+      %table{:cellpadding => "0", :cellspacing => "0", :width => "100%"}
+        %tbody
+          %tr
+            %td{:align => "right", :width => "100%"}
+              %div
+                #header_login_real{:align => "right"}
+                  %a.header_login_real_one{:h => "350", :href => "/facebook_connect_welcome.php?time=1410022950", :w => "900"}
+                    #header_signup.signup-default
+                      %strong Sign Up For Free!
+                  #header_login_signup
+                    %a.header_login_real_one{:h => "350", :href => "/user/login?time=1410022950", :w => "900"} Login
+                  %span#add_more_channels_nav.my_sources_loggedout
+                    %img{:align => "", :height => "12", :src => "http://d1wpny5kdj5pob.cloudfront.net/misc/icons/lock_16.png", :width => "12"}/
+                    Unlock Sources
+    #top_spacer_global
+    #welcome_new_user_banner.ajax_messages_alerts{:style => "display:none; margin-top:19px;"}
+      %table{:width => "100%"}
+        %tbody
+          %tr
+            %td{:width => "100%"}
+              #ajax_messages_alerts
+            %td{:align => "right"}
+              %a{:href => "#", :onclick => "close_ajax_message_alerts(); return false;"} close
+    #site_update_message{:style => "display:none;"}
+      %table{:width => "100%"}
+        %tbody
+          %tr
+            %td{:width => "100%"}
+              %strong Great News! We have just updated our website.
+              Some features may not work properly until you
+              %a{:href => "#", :onclick => "document.location.reload(true); return false;"}
+                %strong click here to reload the page
+            %td{:align => "right"}
+              %a{:href => "#", :onclick => "close_site_update_message(); return false;"} close
+    = yield

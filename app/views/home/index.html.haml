@@ -1,0 +1,905 @@
+%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+  %tbody
+    %tr
+      %td#left_nav{:valign => "top", :width => "220"}
+        #search_box_area
+          #searchform
+            %div
+              %input#inputString.searchBox{:autcomplete => "off", :autocomplete => "off", :default => "Search for a Movie, TV Show, Episode or Channel", :type => "text", :value => ""}/
+          .suggestions
+            %span#initial_holder_place
+        #advanced_search_box{:style => "left: 243px; top: 55px; display: none;"}
+          #advanced_search_spacer
+            #actual_search_spacer
+          #advanced_search_controllers
+            %a#selected_search_ad.tv_shows_selected_search{:url_name => "tv-show"} TV Shows
+             
+            %a#not_selected_search_ad.movies_selected_search{:url_name => "movie"} Movies
+             
+            %a#not_selected_search_ad.episodes_selected_search{:url_name => "tv-episode"} Episodes
+             
+            %a#not_selected_search_ad.tv_channels_selected_search{:url_name => "channel"} Channels
+          %div
+            %input#inputString_advanced.searchBox_advanced{:autcomplete => "off", :autocomplete => "off", :default => "Search for a Movie, TV Show, Episode or Channel", :type => "text", :value => ""}/
+            .suggestions_advanced
+            #default_filter_advanced{:style => "visibility:hidden; display:none;"} tv-show
+        #left_nav_div{:style => "width: 200px; cursor: default;"}
+          #left_nav_div_real{:style => "height:90%; width:200px;"}
+            #home_logo_div{:style => "width: 100%; text-align: center; cursor: default;"}
+              %table{:width => "100%"}
+                %tbody
+                  %tr
+                    %td{:valign => "middle"}
+                      #home_logo
+                        %img{:alt => "Guidebox", :height => "92", :src => "http://d1wpny5kdj5pob.cloudfront.net/misc/new_guidebox_logo_scaled_up8.png", :title => "Guidebox", :width => "200"}/
+                    %td{:valign => "bottom"}
+                      / <em>FREE full TV episodes online</em><BR><BR>
+            #main_nav_area{:style => "cursor: default;"}
+              #recommended_stuff{:style => "display:none; "}
+                %table{:style => "position:relative;", :width => "100%"}
+                  %tbody
+                    %tr
+                      %td#not-selected-main-nav{:mainmenu => "true", :width => "100%"}
+                        #main_nav_div
+                          %span#main_nav_div_style
+                            ‹‹ Main Menu
+                /
+                  <table width="100%" style="position:relative;">
+                  <TR><TD width="100%" id="not-selected-main-nav" class="" mainmenu="true">
+                  <div id="main_nav_div">
+                  <span id="main_nav_div_style">
+                  All Channels
+                  </span>
+                  </div>
+                  </TD></TR></table>
+                  
+                  
+                  <div id="left-arrow-container">
+                  <div id="recommend_up_arrow_left">
+                  <img src="http://d1wpny5kdj5pob.cloudfront.net/misc/more_arrow_up.png">
+                  </div>
+                  </div>
+                #outer_nav_content_holder{:style => "width:300px; overflow:hidden;"}
+                  #nav_content_holder{:style => ""}
+                #recommend_down_arrow_left
+                  %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/more_arrow_down.png"}/
+              :javascript
+                $("#recommend_down_arrow_left").click(function() {
+                	
+                	if (!$("#dont_scroll").html()) {
+                	
+                		$("#dont_scroll").html("correct");
+                		
+                		// 72 is height of each recommended item.  Determine how many shows are "in view"
+                		var num_shows_in_view = Math.floor($("#nav_content_holder").height() / 72);
+                		// how how far do we scroll down (pagination) for each click
+                		var height_sections = num_shows_in_view * 72;
+                		var current_dn_pg = parseInt($("#current_left_recommend_down").html());
+                		var value_should_be = Math.abs($("#verytop").position().top) + height_sections;
+                		var value_go_to = height_sections * current_dn_pg;
+                		var all_done_height = $('#nav_content_holder')[0].scrollHeight;
+                		var at_the_bottom;
+                		if ($("#all-done-span").html()) {
+                			at_the_bottom = $("#all-done-span").position().top;
+                		}
+                		
+                		//$("#debug").html(at_the_bottom);
+                		
+                		if (at_the_bottom) {
+                			if (at_the_bottom < (height_sections * 2)) {
+                				$("#recommend_down_arrow_left").hide();
+                				$("#all-done-span").hide();
+                			}
+                		}
+                		
+                		if (value_should_be > value_go_to) {
+                			current_dn_pg = Math.round(value_should_be / height_sections);
+                			value_go_to = height_sections * current_dn_pg;
+                		}
+                		
+                		$("#nav_content_holder").animate({ scrollTop: value_go_to }, 500, function() {
+                			$("#dont_scroll").empty();
+                		});
+                		
+                		var nxt_dn_pg = current_dn_pg + 1;
+                		$("#current_left_recommend_down").html(nxt_dn_pg);
+                	}
+                	
+                });
+              #current_left_recommend_down{:style => "display:none;"} 1
+              / <div id="total_height_lft" style="display:none;"></div>
+              #dont_scroll{:style => "display:none;"}
+              #debug{:style => "color:#ffffff;"}
+              #debug_two{:style => "color:#ffffff;"}
+              #debug_three{:style => "color:#ffffff;"}
+              #main-left-nav{:style => ""}
+                %table{:style => "position:relative;", :width => "100%"}
+                  %tbody
+                    %tr
+                      %td#selected-main-nav.recommended-shows{:width => "100%"}
+                        #main_nav_div{:style => "position:relative;"}
+                          %span#main_nav_div_style{:style => ""}
+                            %a{:href => "", :url_name => "recommended-shows"}
+                            Popular Shows
+                %table{:style => "position:relative;", :width => "100%"}
+                  %tbody
+                    %tr
+                      %td#not-selected-main-nav.recommended-movies{:width => "100%"}
+                        #main_nav_div{:style => "position:relative;"}
+                          %span#main_nav_div_style{:style => ""}
+                            %a{:href => "", :url_name => "recommended-movies"}
+                            Popular Movies
+                %table{:style => "position:relative;", :width => "100%"}
+                  %tbody
+                    %tr
+                      %td#not-selected-main-nav.search{:width => "100%"}
+                        #main_nav_div{:style => "position:relative;"}
+                          %span#main_nav_div_style{:style => ""}
+                            %a{:href => "", :url_name => "search"}
+                            Search
+                %table{:width => "100%"}
+                  %tbody
+                    %tr
+                      %td#not-selected-main-nav.my-shows{:width => "100%"}
+                        #main_nav_div
+                          %span#main_nav_div_style{:style => "float:left;"}
+                            %a{:href => "", :url_name => "my-shows"}
+                            Following
+                %table{:style => "position:relative;", :width => "100%"}
+                  %tbody
+                    %tr
+                      %td#not-selected-main-nav.my-watchlist{:width => "100%"}
+                        #main_nav_div
+                          %span#main_nav_div_style
+                            %a{:href => "", :url_name => "my-watchlist"}
+                            Watchlist
+                %table{:style => "position:relative;", :width => "100%"}
+                  %tbody
+                    %tr
+                      %td#not-selected-main-nav.all-channels{:width => "100%"}
+                        #main_nav_div{:style => "position:relative;"}
+                          %span#main_nav_div_style{:style => ""}
+                            %a{:href => "", :url_name => "all-channels"}
+                            Channels
+                %span#channel_back_button_allchannels{:style => "display: none;"}
+                  %table{:style => "position:relative;", :width => "100%"}
+                    %tbody
+                      %tr
+                        %td#not-selected-main-nav.selected-channel{:width => "100%"}
+                          #main_nav_div{:style => "position:relative;"}
+                            %span#main_nav_div_style{:style => ""}
+                              %a#channel_back_link_all{:href => "", :url_name => "all-channels"}
+                              ‹‹
+                              %span#channel_name_left_all All Channels
+                %span#channel_back_button{:style => "display: none;"}
+                  %table{:style => "position:relative;", :width => "100%"}
+                    %tbody
+                      %tr
+                        %td#not-selected-main-nav.selected-channel{:width => "100%"}
+                          #main_nav_div{:style => "position:relative;"}
+                            %span#main_nav_div_style{:style => ""}
+                              %a#channel_back_link{:href => "", :url_name => "channel/MTV"}
+                              ‹‹
+                              %span#channel_name_left
+                /
+                  <div style="color:white;">
+                  scrolltop_channels <span id="scrolltop_channels_status"></span><BR />
+                  scrolltop_shows_channels <span id="scrolltop_shows_channels_status"></span><BR />
+                  scrolltop_movies <span id="scrolltop_movies_status"></span><BR />
+                  scrolltop_shows <span id="scrolltop_shows_stauts"></span><BR />
+                  regular_scroll <span id="regular_scroll"></span><BR />
+                  </div>
+              #footer{:style => "font-size: 12px; text-align: center; padding: 0px; margin: 0px; position: absolute; width: 220px; bottom: 0px; height: 35px; cursor: default;"}
+                /
+                  <div style="font-size:15px; margin-bottom:10px;">
+                  <span id="footerlink"><a href="https://docs.google.com/spreadsheet/viewform?hl=en_US&formkey=dFlkWEw4b2hseDN5Z1FTeEl0Qk84dnc6MQ&entry_2=#gid=0" id="footerlink" onmouseover="this.style.textDecoration='underline'; this.style.color='#ffffff';" onmouseout="this.style.textDecoration='none'; this.style.color='#BBC45C';" style="color:#BBC45C;">We love feedback!  Chat with us here.</a>
+                  </span>
+                  </div>
+                %a{:href => "http://api.guidebox.com", :onmouseout => "this.style.textDecoration='none'; this.style.color='#505050';", :onmouseover => "this.style.textDecoration='underline'; this.style.color='#ffffff';", :style => "color:#505050;"} API
+                %font{:color => "#555555"} |
+                /
+                  <span id="footerlink">
+                  <a href="mobile_browser.php" id="footerlink" onmouseover="this.style.textDecoration='underline'; this.style.color='#ffffff';" onmouseout="this.style.textDecoration='none'; this.style.color='#505050';">Guidebox on iPad and Apple TV</a></span> <font color="#555555">|</font>
+                %span#footerlink
+                  %a#footerlink{:href => "about.php", :onmouseout => "this.style.textDecoration='none'; this.style.color='#505050';", :onmouseover => "this.style.textDecoration='underline'; this.style.color='#ffffff';", :style => "color:#505050;"} About Us
+                  %font{:color => "#555555"} |
+                  %a#footerlink{:href => "https://docs.google.com/spreadsheet/viewform?hl=en_US&formkey=dFlkWEw4b2hseDN5Z1FTeEl0Qk84dnc6MQ&entry_2=#gid=0", :onmouseout => "this.style.textDecoration='none'; this.style.color='#505050';", :onmouseover => "this.style.textDecoration='underline'; this.style.color='#ffffff';", :style => "color:#505050;"} Feedback
+                  %font{:color => "#555555"} |
+                  %a#footerlink{:href => "node/5", :onmouseout => "this.style.textDecoration='none'; this.style.color='#505050';", :onmouseover => "this.style.textDecoration='underline'; this.style.color='#ffffff';", :style => "color:#505050;"} DMCA
+                  %br/
+                  %a#footerlink{:href => "node/1", :onmouseout => "this.style.textDecoration='none'; this.style.color='#505050';", :onmouseover => "this.style.textDecoration='underline'; this.style.color='#ffffff';", :style => "color:#505050;"} Terms of Service
+                  %font{:color => "#555555"} |
+                  %a#footerlink{:href => "node/2", :onmouseout => "this.style.textDecoration='none'; this.style.color='#505050';", :onmouseover => "this.style.textDecoration='underline'; this.style.color='#ffffff';", :style => "color:#505050;"} Privacy Policy
+                  / <a href="http://www.guidebox.com/">Guidebox</a> <a href="http://www.guidebox.com/">Watch Full Episodes</a>
+      %td#slider_left{:style => "text-align: center; cursor: default;", :valign => "top"}
+        #slider_container_left
+        #scrolltop{:style => "display:none; visibility:hidden;"}
+        #scrolltop_movies{:style => "display:none; visibility:hidden;"}
+        #scrolltop_shows_channels{:style => "display:none; visibility:hidden;"}
+        #scrolltop_channels{:style => "display:none; visibility:hidden;"}
+        #scrolltop_myshows{:style => "display:none; visibility:hidden;"}
+      %td#content_guide_td{:align => "center", :style => "cursor: default;", :valign => "top", :width => "0%"}
+        #content_guide_arrow_up{:style => "display:none; visibility:hidden;"}
+        #total_number_entries_content_guide{:style => "display:none; visibility:hidden;"}
+        #down_navigation_content_guide{:style => "display:none; visibility:hidden;"}
+        #content_guide_ajax
+          #content_guide{:style => "display: none;"}
+            #start
+              #contentInner
+                / Hardcoded
+                %table{:width => "100%"}
+                  %tbody
+                    %tr#not-selected-channel-non
+                      %td#nomargin{:align => "center", :width => "100%"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong ABC
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!ABC", :style => "color:#fff;"}
+                                          %strong ABC
+                                      %td{:align => "right"}
+                                        #extra_network_info_1.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong NBC
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!NBC", :style => "color:#fff;"}
+                                          %strong NBC
+                                      %td{:align => "right"}
+                                        #extra_network_info_2.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong CBS
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!CBS", :style => "color:#fff;"}
+                                          %strong CBS
+                                      %td{:align => "right"}
+                                        #extra_network_info_3.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong FOX
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!FOX", :style => "color:#fff;"}
+                                          %strong FOX
+                                      %td{:align => "right"}
+                                        #extra_network_info_4.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong CW
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!CW", :style => "color:#fff;"}
+                                          %strong CW
+                                      %td{:align => "right"}
+                                        #extra_network_info_6.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong COM
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!COMEDY-CENTRAL", :style => "color:#fff;"}
+                                          %strong COMEDY CENTRAL
+                                      %td{:align => "right"}
+                                        #extra_network_info_10.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong MTV
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!MTV", :style => "color:#fff;"}
+                                          %strong MTV
+                                      %td{:align => "right"}
+                                        #extra_network_info_22.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong USA
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!USA", :style => "color:#fff;"}
+                                          %strong USA
+                                      %td{:align => "right"}
+                                        #extra_network_info_12.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong A&E
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!A-and-E", :style => "color:#fff;"}
+                                          %strong A&E
+                                      %td{:align => "right"}
+                                        #extra_network_info_17.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-height
+                      %td#not-selected-channel{:align => "center", :width => "100%"}
+                        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#mid_td{:align => "left"}
+                                #network_logo_container{:align => "center"}
+                                  #network_logo
+                                    %strong HIS
+                              %td{:align => "left"}
+                                %table{:width => "100%"}
+                                  %tbody
+                                    %tr
+                                      %td
+                                        %a{:href => "/#!HISTORY", :style => "color:#fff;"}
+                                          %strong HISTORY
+                                      %td{:align => "right"}
+                                        #extra_network_info_18.extra_network_info{:style => "display:none;"}
+                    %tr#not-selected-channel-non-link.arrowdown
+                      %td#left_handler_down_arrow.over_arrow_default{:align => "center"}
+                        %table{:cellpadding => "0", :cellspacing => "0", :width => "100%"}
+                          %tbody
+                            %tr
+                              %td#not-selected-channel-non-link-real{:align => "left"}
+                                %div{:style => "width:35px; color:#FFF; text-align:center; font-size:12px; padding-left:5px;"}
+                                  %span.all_way_down_left_a{:style => "display:none;"}
+                                    %span.message_words
+                                      / Page 2/10
+                                      Page Down
+                              %td#not-selected-channel-non-link-real{:align => "center"}
+                                %a{:href => "/#!all-channels/page/10"}
+                                  %div{:style => "width:98px; height:35px; background-image:url('misc/more_arrow_down.png'); background-repeat:no-repeat;"}
+                              %td#not-selected-channel-non-link-real.all_way_down{:align => "right", :currentpage => "2", :totalpages => "10"}
+                                %div{:style => "width:35px; padding-right:5px;"}
+                                  .all_way_down_left_b{:style => "width:30px; height:26px; background-image:url('misc/icons/all_the_way_down.png'); background-repeat:no-repeat; display:none;"}
+            .ajax-loader
+              %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/ajax-loader.gif", :width => ""}/
+        #content_guide_arrow_down{:style => "display:none; visibility:hidden;"}
+        #hidden_div_left
+        #hidden_num_of_vids{:style => "display:none; visibility:hidden;"}
+        #first_load_div{:style => "display:none; visibility:hidden;"}
+        #hidden_thumbnail_revision{:style => "display:none; visibility:hidden;"} 33txt
+        #hidden_force_page_refresh{:style => "display:none; visibility:hidden;"}
+        #currently_active_user{:style => "display:none; visibility:hidden;"} event
+        #most_recent_watched_fbid{:style => "display:none; visibility:hidden;"}
+        #most_recent_watched{:style => "display:none; visibility:hidden;"}
+        #dont_refresh_after_watch{:style => "display:none; visibility:hidden;"}
+        #hidden_div_left_pagination
+        #hidden_div_recent_hidden
+        #hidden_div_just_watched
+        #logged_into_facebook{:style => "display:none; visibility:hidden;"}
+        #hidden_div_sources{:style => "display:none; visibility:hidden;"}
+        #right_handler_url{:style => "display:none; visibility:hidden;"}
+        #hidden_div_refresh_shows{:style => "display:none; visibility:hidden;"}
+        #hidden_div_refresh_channels{:style => "display:none; visibility:hidden;"}
+        #down_page_status{:style => "display:none; visibility:hidden;"}
+        #down_page_status_advanced_search{:style => "display:none; visibility:hidden;"}
+        #down_page_status_movies{:style => "display:none; visibility:hidden;"}
+        #down_page_status_myshows{:style => "display:none; visibility:hidden;"}
+        #down_page_status_slider_left{:style => "display:none; visibility:hidden;"}
+        #hidden_div_left_fulleps{:style => "display:none; visibility:hidden;"}
+        #hidden_div_refresh_shows_lefthandler{:style => "display:none; visibility:hidden;"}
+        #is_user_logged_in{:style => "display:none; visibility:hidden;"}
+      %td#show_guide_td{:align => "center", :style => "cursor: default;", :valign => "top", :width => "80%"}
+        #show_guide_ajax
+          #recommended_myshowsshows_content_guide{:style => "display: none;"}
+          #recommended_shows_content_guide{:style => "display: block;"}
+            #contentInner.wide_container
+              #welcome_text_recommended
+                All your favorite shows
+                %em in one place
+              .items_divs{:style => "padding-top:47px;"}
+                %span#recommend_container
+                  %span{:style => "display:none;"}
+                    %a#next_recommended{:href => "new_recommended_shows.php?start=25&mobile_device=&ios=&android="} test
+                  - @response.each  do |video_element|
+                    #not-selected.float_div.item
+                      %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "STARZ", :networkid => "38", :show_a_type => "recommendation", :showid => "19447", :showname => "#{video_element.show_name}"}
+                      #show_image_container_two{:align => "center", :style => "position:relative;"}
+                        %img#show_image_two{:src => "#{video_element.thumbnail_url}"}/
+                        #show_info_title #{video_element.show_name}
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "STARZ", :networkid => "38", :show_a_type => "recommendation", :showid => "19447", :showname => "Outlander"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/041014/thumbnails_large/19447-6353677418-448x252.jpg"}/
+                      #show_info_title Outlander
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "HBO", :networkid => "36", :show_a_type => "recommendation", :showid => "6965", :showname => "True-Blood"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/6965-8848790223-448x252.jpg"}/
+                      #show_info_title True Blood
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "USA", :networkid => "12", :show_a_type => "recommendation", :showid => "300", :showname => "Suits"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/300-6843462405-448x252.jpg"}/
+                      #show_info_title Suits
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "FX", :networkid => "32", :show_a_type => "recommendation", :showid => "617", :showname => "Sons-of-Anarchy"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/617-6724458276-448x252.jpg"}/
+                      #show_info_title Sons of Anarchy
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "CW", :networkid => "6", :show_a_type => "recommendation", :showid => "134", :showname => "Supernatural"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/134-107044178-448x252.jpg"}/
+                      #show_info_title Supernatural
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "CW", :networkid => "6", :show_a_type => "recommendation", :showid => "13015", :showname => "Arrow"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/13015-7053150455-448x252.jpg"}/
+                      #show_info_title Arrow
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "AMC", :networkid => "46", :show_a_type => "recommendation", :showid => "8528", :showname => "The-Killing"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/8528-8769598305-448x252.jpg"}/
+                      #show_info_title The Killing
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "CBS", :networkid => "3", :show_a_type => "recommendation", :showid => "950", :showname => "The-Big-Bang-Theory"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/950-6145931841-448x252.jpg"}/
+                      #show_info_title The Big Bang Theory
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "MTV", :networkid => "22", :show_a_type => "recommendation", :showid => "4477", :showname => "Teen-Wolf"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/4477-7901217411-448x252.jpg"}/
+                      #show_info_title Teen Wolf
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "ABC", :networkid => "1", :show_a_type => "recommendation", :showid => "166", :showname => "Once-Upon-a-Time"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/166-2795191654-448x252.jpg"}/
+                      #show_info_title Once Upon a Time
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "FX", :networkid => "32", :show_a_type => "recommendation", :showid => "621", :showname => "American-Horror-Story"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/621-8027971275-448x252.jpg"}/
+                      #show_info_title American Horror Story
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "CBS", :networkid => "3", :show_a_type => "recommendation", :showid => "954", :showname => "Criminal-Minds"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/954-2075714795-448x252.jpg"}/
+                      #show_info_title Criminal Minds
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "CBS", :networkid => "3", :show_a_type => "recommendation", :showid => "15586", :showname => "Under-The-Dome"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/15586-6569314874-448x252.jpg"}/
+                      #show_info_title Under The Dome
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "SHOWTIME", :networkid => "14", :show_a_type => "recommendation", :showid => "2625", :showname => "Homeland"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/2625-199426059-448x252.jpg"}/
+                      #show_info_title Homeland
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "ABC", :networkid => "1", :show_a_type => "recommendation", :showid => "159", :showname => "Grey's-Anatomy"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/159-7884302241-448x252.jpg"}/
+                      #show_info_title Grey's Anatomy
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "CW", :networkid => "6", :show_a_type => "recommendation", :showid => "137", :showname => "The-Vampire-Diaries"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/137-5784961758-448x252.jpg"}/
+                      #show_info_title The Vampire Diaries
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "SHOWTIME", :networkid => "14", :show_a_type => "recommendation", :showid => "15559", :showname => "Ray-Donovan"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/041014/thumbnails_large/15559-7498537577-448x252.jpg"}/
+                      #show_info_title Ray Donovan
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "SHOWTIME", :networkid => "14", :show_a_type => "recommendation", :showid => "16217", :showname => "Masters-of-Sex"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/041014/thumbnails_large/16217-4280264895-448x252.jpg"}/
+                      #show_info_title Masters of Sex
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "TNT", :networkid => "15", :show_a_type => "recommendation", :showid => "18981", :showname => "The-Last-Ship"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/041014/thumbnails_large/18981-8139288746-448x252.jpg"}/
+                      #show_info_title The Last Ship
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "TNT", :networkid => "15", :show_a_type => "recommendation", :showid => "2683", :showname => "Falling-Skies"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/2683-3478423278-448x252.jpg"}/
+                      #show_info_title Falling Skies
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "BBC-AMERICA", :networkid => "27", :show_a_type => "recommendation", :showid => "13424", :showname => "Sherlock"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/13424-7134181298-448x252.jpg"}/
+                      #show_info_title Sherlock
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "CBS", :networkid => "3", :show_a_type => "recommendation", :showid => "19429", :showname => "Extant"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/041014/thumbnails_large/19429-3134656586-448x252.jpg"}/
+                      #show_info_title Extant
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "ABC", :networkid => "1", :show_a_type => "recommendation", :showid => "169", :showname => "Modern-Family"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/169-2412103792-448x252.jpg"}/
+                      #show_info_title Modern Family
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "CBS", :networkid => "3", :show_a_type => "recommendation", :showid => "962", :showname => "How-I-Met-Your-Mother"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/962-3476151889-448x252.jpg"}/
+                      #show_info_title How I Met Your Mother
+                  #not-selected.float_div.item
+                    %a{:actual_page_limit => "25", :downpage => "", :href => "", :limits => "", :network_name => "FOX", :networkid => "4", :show_a_type => "recommendation", :showid => "65", :showname => "The-Simpsons"}
+                    #show_image_container_two{:align => "center", :style => "position:relative;"}
+                      %img#show_image_two{:src => "http://static-api.guidebox.com/thumbnails_large/65-3950643120-448x252.jpg"}/
+                      #show_info_title The Simpsons
+            .margin-bottom{:style => "height:850px; margin-top:200px;"}
+          #recommended_movies_content_guide{:style => "display: none;"}
+          #recommended_channel_shows_content_guide{:style => "display: none;"}
+          #recommended_channels_content_guide{:style => "display: none;"}
+          #show_guide
+        #hidden_div_middle
+        #hidden_div_middle_show
+        #top_banner_ajax{:style => "display: none;"}
+          #top_banner
+        #featured_episode_div{:style => "display: none;"}
+        / Video Div 1 / Free Full Episodes
+        #ep_modal_div_1.full-ep-banner-headers{:style => "display: none;"}
+          %h1
+            %strong
+              %span#video_modal_title_1 FREE Full Episodes
+              %span#numfreeeps_newdesign
+            #loading_notification_a
+        #first_video_banner_ajax{:style => "width: 976px; display: none;"}
+          #first_video_banner{:style => "width: 976px; display: none;"}
+          #left-video-banner-arrow-first.tray_arrows{:style => "display: none;"}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-left.png"}/
+          #right-video-banner-arrow-first.tray_arrows{:style => "display: none;"}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-right.png"}/
+        / Video Div 2 / All Full Episodes
+        #ep_modal_div_2.full-ep-banner-headers{:style => "display: none;"}
+          %h1
+            %strong
+              %span#video_modal_title_2 Full Episodes
+              %span#numalleps_newdesign
+            %select#season_filter{:current_method => "", :name => "season_filter", :showid => ""}
+              %option{:selected => "selected", :value => "show_all"} All Seasons
+            #loading_notification_b
+        #second_video_banner_ajax{:style => "width: 976px; display: none;"}
+          #second_video_banner{:style => "width: 976px; display: none;"}
+          #left-video-banner-arrow-second.tray_arrows{:style => "display: none;"}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-left.png"}/
+          #right-video-banner-arrow-second.tray_arrows{:style => "display: none;"}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-right.png"}/
+        / Video Div 4 / Segments
+        #ep_modal_div_4.full-ep-banner-headers{:style => "display: none;"}
+          %h1
+            %strong
+              %span#video_modal_title_4 Episode Segments
+              %span#numsegments
+            #loading_notification_d
+        #fourth_video_banner_ajax{:style => "width: 976px; display: none;"}
+          #fourth_video_banner{:style => "width: 976px;"}
+          #left-video-banner-arrow-fourth.tray_arrows{:style => "display: none;"}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-left.png"}/
+          #right-video-banner-arrow-fourth.tray_arrows{:style => "display: none;"}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-right.png"}/
+        / Video Div 3 / Clips
+        #ep_modal_div_3.full-ep-banner-headers{:style => "display: none;"}
+          %h1
+            %strong
+              %span#video_modal_title_3 Videos, Clips & Extras
+              %span#numclips
+            :css
+              select#sources_filter {
+              font-size: 16px;
+              vertical-align: middle;
+              margin-left: 10px; }
+            %select#sources_filter{:current_method => "", :name => "sources_filter", :showid => ""}
+              %option{:selected => "selected", :value => "show_all"} All Sources
+            #loading_notification_c
+        #third_video_banner_ajax{:style => "width: 976px; display: none;"}
+          #third_video_banner{:style => "width: 976px; display: none;"}
+          #left-video-banner-arrow-third.tray_arrows{:style => "display: none;"}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-left.png"}/
+          #right-video-banner-arrow-third.tray_arrows{:style => "display: none;"}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-right.png"}/
+        / Video Div 2 / All Full Episodes
+        #ep_modal_div_default.full-ep-banner-headers{:style => "display: none;"}
+          %h1
+            %strong
+              %span#video_modal_title_default All Full Episodes
+              %span#numalleps_newdesign_default (0)
+        #second_video_banner_ajax_default
+          #second_video_banner_default
+        / Video Div 2 / All Full Episodes
+        #ep_modal_div_default_free.full-ep-banner-headers{:style => "display: none;"}
+          %h1
+            %strong
+              %span#video_modal_title_default_free Free Full Episodes
+              %span#numalleps_newdesign_default_free (0)
+        #second_video_banner_ajax_default_free
+          #second_video_banner_default_free
+        / Video Div 5 / Similar Shows
+        #ep_modal_div_5.full-ep-banner-headers{:style => "border-top-width: 1px; border-top-style: solid; border-top-color: rgb(85, 85, 85); padding-top: 25px; display: none;"}
+          %h1
+            %strong
+              %span#video_modal_title_5
+                %a#channellink{:href => "#!channel/A-and-E", :style => "color:#FFFFFF;"}
+                  / <span id="channel_name_tray"></span>
+                  All Shows On This Channel ›
+              %span#similar_shows_number
+            #loading_notification_e
+        #fifth_video_banner_ajax{:style => "width: 976px; display: none;"}
+          #fifth_video_banner{:style => "width: 976px;"}
+          #left-video-banner-arrow-fifth{:style => ""}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-left.png"}/
+          #right-video-banner-arrow-fifth
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-right.png"}/
+        / Video Div 5 / Similar Shows
+        #ep_modal_div_6.full-ep-banner-headers{:style => "border-top-width: 1px; border-top-style: solid; border-top-color: rgb(85, 85, 85); margin-right: 15px; margin-top: 50px; margin-left: 10px; padding-top: 20px; display: none;"}
+          %h1{:style => "margin-left:10px;"}
+            %strong
+              %span#video_modal_title_6 Trailers and Related Videos
+              %span#num_movie_vids (0)
+            #loading_notification_f
+        #sixth_video_banner_ajax{:style => "margin-right: 10px; width: 716px; display: none;"}
+          #sixth_video_banner{:style => "width: 716px; display: none;"}
+          #left-video-banner-arrow-sixth{:style => ""}
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-left.png"}/
+          #right-video-banner-arrow-sixth
+            %img{:src => "http://d1wpny5kdj5pob.cloudfront.net/misc/arrow-right.png"}/
+        #dont_scroll_first{:style => "display:none;"}
+        #dont_scroll_second{:style => "display:none;"}
+        #dont_scroll_third{:style => "display:none;"}
+        #dont_scroll_fourth{:style => "display:none;"}
+        #dont_scroll_fifth{:style => "display:none;"}
+        #dont_scroll_sixth{:style => "display:none;"}
+        :javascript
+          $("#right-video-banner-arrow-first").click(function() {
+          	if (!$("#dont_scroll_first").html()) {
+          		$("#dont_scroll_first").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#first_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#first_video_banner").scrollLeft();  //your current y position on the page
+          		$("#first_video_banner").animate({ scrollLeft: y + scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_first").empty();
+          		});
+          	}
+          });
+          $("#left-video-banner-arrow-first").click(function() {
+          	if (!$("#dont_scroll_first").html()) {
+          		$("#dont_scroll_first").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#first_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#first_video_banner").scrollLeft();  //your current y position on the page
+          		$("#first_video_banner").animate({ scrollLeft: y - scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_first").empty();
+          		});
+          	}
+          });
+          
+          $("#right-video-banner-arrow-second").click(function() {
+          	if (!$("#dont_scroll_second").html()) {
+          		$("#dont_scroll_second").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#second_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#second_video_banner").scrollLeft();  //your current y position on the page
+          		$("#second_video_banner").animate({ scrollLeft: y + scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_second").empty();
+          		});
+          	}
+          });
+          
+          $("#left-video-banner-arrow-second").click(function() {
+          	if (!$("#dont_scroll_second").html()) {
+          		$("#dont_scroll_second").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#second_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#second_video_banner").scrollLeft();  //your current y position on the page
+          		$("#second_video_banner").animate({ scrollLeft: y - scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_second").empty();
+          		});
+          	}
+          });
+          
+          $("#right-video-banner-arrow-third").click(function() {
+          	if (!$("#dont_scroll_third").html()) {
+          		$("#dont_scroll_third").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#third_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#third_video_banner").scrollLeft();  //your current y position on the page
+          		$("#third_video_banner").animate({ scrollLeft: y + scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_third").empty();
+          		});
+          	}
+          });
+          
+          $("#left-video-banner-arrow-third").click(function() {
+          	if (!$("#dont_scroll_third").html()) {
+          		$("#dont_scroll_third").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#third_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#third_video_banner").scrollLeft();  //your current y position on the page
+          		$("#third_video_banner").animate({ scrollLeft: y - scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_third").empty();
+          		});
+          	}
+          });
+          
+          
+          $("#right-video-banner-arrow-fourth").click(function() {
+          	if (!$("#dont_scroll_fourth").html()) {
+          		$("#dont_scroll_fourth").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#fourth_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#fourth_video_banner").scrollLeft();  //your current y position on the page
+          		$("#fourth_video_banner").animate({ scrollLeft: y + scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_fourth").empty();
+          		});
+          	}
+          });
+          
+          $("#left-video-banner-arrow-fourth").click(function() {
+          	if (!$("#dont_scroll_fourth").html()) {
+          		$("#dont_scroll_fourth").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#fourth_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#fourth_video_banner").scrollLeft();  //your current y position on the page
+          		$("#fourth_video_banner").animate({ scrollLeft: y - scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_fourth").empty();
+          		});
+          	}
+          });
+          
+          
+          $("#right-video-banner-arrow-fifth").click(function() {
+          	if (!$("#dont_scroll_fifth").html()) {
+          		$("#dont_scroll_fifth").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#fifth_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#fifth_video_banner").scrollLeft();  //your current y position on the page
+          		$("#fifth_video_banner").animate({ scrollLeft: y + scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_fifth").empty();
+          		});
+          	}
+          });
+          
+          $("#left-video-banner-arrow-fifth").click(function() {
+          	if (!$("#dont_scroll_fifth").html()) {
+          		$("#dont_scroll_fifth").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#fifth_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#fifth_video_banner").scrollLeft();  //your current y position on the page
+          		$("#fifth_video_banner").animate({ scrollLeft: y - scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_fifth").empty();
+          		});
+          	}
+          });
+          
+          
+          
+          /* Movies */
+          $("#right-video-banner-arrow-sixth").click(function() {
+          	if (!$("#dont_scroll_sixth").html()) {
+          		$("#dont_scroll_sixth").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#sixth_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#sixth_video_banner").scrollLeft();  //your current y position on the page
+          		$("#sixth_video_banner").animate({ scrollLeft: y + scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_sixth").empty();
+          		});
+          	}
+          });
+          
+          $("#left-video-banner-arrow-sixth").click(function() {
+          	if (!$("#dont_scroll_sixth").html()) {
+          		$("#dont_scroll_sixth").html("correct");
+          		// how many items are in view
+          		// arrow width is 70
+          		var num_shows_in_view = Math.floor($("#sixth_video_banner_ajax").width() / 224);
+          		var scroll_sections_width = num_shows_in_view * 224;
+          		var y = $("#sixth_video_banner").scrollLeft();  //your current y position on the page
+          		$("#sixth_video_banner").animate({ scrollLeft: y - scroll_sections_width }, 500, function() {
+          			$("#dont_scroll_sixth").empty();
+          		});
+          	}
+          });
+      %td#content_td{:style => "cursor: default;", :valign => "top", :width => ""}
+        #right_handler_ajax
+          #content
+      %td#ad_unit_div-new{:valign => "top"}
+        #ad_unit-new
+    %tr
+      %td
+      %td
+      %td{:colspan => "4"}
+        %div{:style => "height:50px; margin-top:100px;"}

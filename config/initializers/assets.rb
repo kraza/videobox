@@ -1,0 +1,6 @@
+Rails.application.config.assets.precompile += %w( jquery.appear-1.1.1.min.js )
+Rails.application.config.assets.precompile += %w( jquery.min.js )
+Rails.application.config.assets.precompile += %w( jquery-ui.min.js )
+Rails.application.config.assets.precompile += %w( pullouts.min.js )
+Rails.application.config.assets.precompile += %w( tv_min.css )
+Rails.application.config.assets.precompile += %w( tv_small_min.css )
